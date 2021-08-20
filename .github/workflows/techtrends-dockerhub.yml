@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: techtrends
 
 jobs:
   push_to_docker_registry:
