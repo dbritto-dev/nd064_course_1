@@ -1,0 +1,14 @@
+
+## Helm commands to install chart with default values
+helm install techtrends . --kubeconfig /etc/rancher/k3s/k3s.yaml
+
+## Helm commands to install chart with values for staging (overwriting the default values - values.yaml)
+helm install -f values.yaml -f values-staging.yaml techtrends-staging . --kubeconfig /etc/rancher/k3s/k3s.yaml
+
+## Helm commands to install chart with values for prod (overwriting the default values - values.yaml)
+helm install -f values.yaml -f values-prod.yaml techtrends-prod . --kubeconfig /etc/rancher/k3s/k3s.yaml
+
+## Helm commands to uninstall chart
+helm uninstall techtrends --kubeconfig /etc/rancher/k3s/k3s.yaml
+helm uninstall techtrends-staging --kubeconfig /etc/rancher/k3s/k3s.yaml
+helm uninstall techtrends-prod --kubeconfig /etc/rancher/k3s/k3s.yaml
