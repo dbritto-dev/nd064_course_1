@@ -3,8 +3,7 @@ namespaceName: sandbox
 service:
   type: ClusterIP
   protocol: TCP
-  port: 4111
-  targetPort: 3111
+  port: 3111
 
 image:
   repository: techtrends
