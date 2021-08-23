@@ -1,10 +1,12 @@
+import sys
 import sqlite3
 import logging
 import datetime
 
 from flask import Flask, jsonify, render_template, request, url_for, redirect, flash
 
-logging.basicConfig(level=logging.DEBUG,
+logging.basicConfig(stream=sys.stdout,
+                    level=logging.DEBUG,
                     format='%(levelname)s:%(name)s:%(message)s')
 
 
