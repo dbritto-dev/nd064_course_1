@@ -28,9 +28,9 @@ spec:
             - containerPort: {{ .Values.containerPort }}
           livenessProbe:
             httpGet:
-              path: {{ .Values.livenessProbePath }}
+              path: {{ .Values.livenessProbe }}
               port: {{ .Values.containerPort }}
           readinessProbe:
             httpGet:
-              path: {{ .Values.readinessProbePath }}
+              path: {{ .Values.readinessProbe }}
               port: {{ .Values.containerPort }}
