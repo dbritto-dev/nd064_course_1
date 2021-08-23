@@ -4,7 +4,9 @@ import datetime
 
 from flask import Flask, jsonify, render_template, request, url_for, redirect, flash
 
-logging.basicConfig(level=logging.DEBUG, format=f'%(levelname)s:%(name)s:%(message)s')
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(levelname)s:%(name)s:%(message)s')
+
 
 class Database:
     _db_connection_count = 0
@@ -33,11 +35,11 @@ class Database:
             return False
 
     @staticmethod
-    def has_table(table_name: str):
+    def has_table(table_name):
         try:
             with Database.get_db_connection() as connection:
                 connection.execute(
-                    f'SELECT * FROM {table_name} LIMIT 1').fetchone()
+                    'SELECT * FROM {} LIMIT 1'.format(table_name)).fetchone()
                 return True
         except:
             return False
@@ -45,14 +47,14 @@ class Database:
 
 class Post:
     @staticmethod
-    def get_post_count() -> int:
+    def get_post_count():
         with Database.get_db_connection() as connection:
             post_count = connection.execute(
                 'SELECT COUNT(*) as count FROM posts').fetchone()['count']
             return post_count
 
     @staticmethod
-    def get_post(post_id: int):
+    def get_post(post_id):
         # Function to get a post using its ID
         with Database.get_db_connection() as connection:
             post = connection.execute(
@@ -66,7 +68,7 @@ class Post:
             return posts
 
     @staticmethod
-    def create_post(title: str, content: str):
+    def create_post(title, content):
         with Database.get_db_connection() as connection:
             connection.execute(
                 'INSERT INTO posts (title, content) VALUES (?, ?)', (title, content))
@@ -86,26 +88,28 @@ def index():
 
 
 @app.route('/<int:post_id>')
-def post(post_id: int):
+def post(post_id):
     # Define how each individual article is rendered
     # If the post ID is not found a 404 page is shown
     post = Post.get_post(post_id)
     timestamp = datetime.datetime.now().strftime('%Y/%m/%d, %H:%M:%S')
-    
+
     if post is None:
-        app.logger.info(f'{timestamp}, Article with {post_id} not found!')
+        app.logger.info(
+            '{}, Article with {} not found!'.format(timestamp, post_id))
 
         return render_template('404.html'), 404
     else:
         post_title = post['title']
-        app.logger.info(f'{timestamp}, Article "{post_title}" retrieved!')
+        app.logger.info('{}, Article "{}" retrieved!'.format(
+            timestamp, post_title))
 
         return render_template('post.html', post=post)
 
 
 @app.route('/about')
 def about():
-    app.logger.info(f'The "About Us" page is retrieved!')
+    app.logger.info('The "About Us" page is retrieved!')
     # Define the About Us page
     return render_template('about.html')
 
@@ -121,7 +125,8 @@ def create():
             flash('Title is required!')
         else:
             timestamp = datetime.datetime.now().strftime('%Y/%m/%d, %H:%M:%S')
-            app.logger.info(f'{timestamp}, A new article "{title}" is created!')
+            app.logger.info(
+                '{}, A new article "{}" is created!'.format(timestamp, title))
 
             Post.create_post(title, content)
 
